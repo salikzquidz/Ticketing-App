@@ -15,6 +15,7 @@ spec :
       containers : 
         - name : auth
           image: salikzquidz/auth
+          # image : us.gcr.io/my-app-3a72e/auth #gcloud
 ---
 apiVersion : v1
 kind : Service

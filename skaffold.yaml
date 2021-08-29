@@ -5,10 +5,13 @@ deploy :
     manifests : 
       - ./infra/k8s/*
 build : 
-  local : 
+  local : #commented out local because can only choose only one, either local or googleCloudBuild
     push : false # disable docker push by default
+  # googleCloudBuild: #added after configure gcloud build
+    # projectId : my-app-3a72e
   artifacts : 
     - image : salikzquidz/auth
+    # - image : us.gcr.io/my-app-3a72e/auth #gcloud
       context : auth # folder name which contain the auth
       docker : 
         dockerfile : Dockerfile
