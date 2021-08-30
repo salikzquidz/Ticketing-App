@@ -5,6 +5,9 @@ import {currentUserRouter} from './routes/current-user'
 import {signUpRouter} from './routes/signup';
 import {signInRouter} from './routes/signin';
 import {signOutRouter} from './routes/signout'
+
+// not found error
+import { NotFoundError } from "./errors/not-found-error";
 // middleware
 import {errorHandler} from './middlewares/error-handler'
 
@@ -14,6 +17,12 @@ app.use(currentUserRouter);
 app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
+
+app.all('*', ()=> {
+    throw new NotFoundError();
+})
+// after throw, errorHandler will be used
+
 app.use(errorHandler);
 
 // the port number doesnt really make any differences when using kubernetes
