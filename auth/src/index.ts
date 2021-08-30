@@ -5,6 +5,7 @@ import {currentUserRouter} from './routes/current-user'
 import {signUpRouter} from './routes/signup';
 import {signInRouter} from './routes/signin';
 import {signOutRouter} from './routes/signout'
+// middleware
 import {errorHandler} from './middlewares/error-handler'
 
 app.use(express.json());
