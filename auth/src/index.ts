@@ -1,4 +1,6 @@
 import express from "express";
+// smol package for async
+import 'express-async-errors';
 const app = express();
 
 import {currentUserRouter} from './routes/current-user'
@@ -18,7 +20,8 @@ app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
 
-app.all('*', ()=> {
+// express-async-errors 
+app.all('*', async(req, res)=> {
     throw new NotFoundError();
 })
 // after throw, errorHandler will be used
