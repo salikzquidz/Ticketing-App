@@ -1,6 +1,8 @@
 import express from "express";
 // smol package for async
 import 'express-async-errors';
+
+import mongoose from "mongoose";
 const app = express();
 
 import {currentUserRouter} from './routes/current-user'
@@ -28,5 +30,24 @@ app.all('*', async(req, res)=> {
 
 app.use(errorHandler);
 
-// the port number doesnt really make any differences when using kubernetes
-app.listen(3000, ()=>{console.log('listening on port 3000!')})
+// const start = async() => {
+//     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
+//         useNewUrlParser : true,
+//         useUnifiedTopology : true,
+//         useCreateIndex : true,
+//     });
+// }
+
+const start = async() => {
+    try {
+        await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
+        console.log('MongoDB connected')
+    } catch (error) {
+        console.error(error)
+    }
+
+    // the port number doesnt really make any differences when using kubernetes
+    app.listen(3000, ()=>{console.log('listening on port 3000!')})
+}
+
+start();
