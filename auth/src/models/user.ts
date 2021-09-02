@@ -30,7 +30,7 @@ const schema = new Schema<UserAttrs>({
     password : { type : String, required : true}
 })
 
-const User = model<UserDoc, UserModel>('User', schema)
+
 
 // custom function into the model
 // add static properties to remove buildUser(), and to avoid export 2 things (User and buildUser, but now only User)
@@ -39,10 +39,12 @@ schema.statics.build = (userAttributes : UserAttrs) => {
     return new User(userAttributes)
 }
 
-const userA = User.build({
-    name : 'sad',
-    email : 's@s.com',
-    password : 'sad'
-})
+const User = model<UserDoc, UserModel>('User', schema)
+
+// const userA = User.build({
+//     name : 'sad',
+//     email : 's@s.com',
+//     password : 'sad'
+// })
 
 export {User}
