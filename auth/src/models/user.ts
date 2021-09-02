@@ -1,4 +1,4 @@
-import {Schema, model, connect, Model} from "mongoose";
+import {Schema, model, connect, Model, Document} from "mongoose";
 
 // An interface that describes the properties required to create a new User
 
@@ -11,8 +11,16 @@ interface UserAttrs {
 // An interface that describes the properties that a User Model has.
 // To tell TS that there is build function available on the User Model.
 
-interface UserModel extends Model<any>{
-    build(attrs : UserAttrs) : any
+interface UserModel extends Model<UserDoc>{
+    build(attrs : UserAttrs) : UserDoc
+}
+
+// Interface that describes the property that a User Document has
+
+interface UserDoc extends Document {
+    name : string;
+    email : string;
+    password : string;
 }
 
 const schema = new Schema<UserAttrs>({
@@ -22,7 +30,7 @@ const schema = new Schema<UserAttrs>({
     password : { type : String, required : true}
 })
 
-const User = model<any, UserModel>('User', schema)
+const User = model<UserDoc, UserModel>('User', schema)
 
 // custom function into the model
 // add static properties to remove buildUser(), and to avoid export 2 things (User and buildUser, but now only User)
@@ -31,7 +39,7 @@ schema.statics.build = (userAttributes : UserAttrs) => {
     return new User(userAttributes)
 }
 
-User.build({
+const userA = User.build({
     name : 'sad',
     email : 's@s.com',
     password : 'sad'
