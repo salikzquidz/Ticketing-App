@@ -5,6 +5,8 @@ import { User } from '../models/user';
 
 import { RequestValidationError } from '../errors/request-validation-error';
 
+import { BadRequestError } from '../errors/bad-request-error';
+
 const router = express.Router();
 
 router.post('/api/users/signup', [
@@ -22,15 +24,21 @@ async(req : Request,res : Response) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         throw new RequestValidationError(errors.array())
-        // return res.status(400).send(errors.array())
     }
 
-    const existingUser = await User.findOne({email })
-    if(existingUser){
-        console.log('Email in use');
-        return res.send({})
+    const existingUser = await User.findOne({ email })
+    const existingName = await User.findOne({ name })
+
+    // check if name is already in used
+    if(existingName){
+        throw new BadRequestError('Username has been taken')
     }
-    User.build
+
+    // check if email is already in used
+    if(existingUser){
+        throw new BadRequestError('Email has been taken')
+    }
+
     const user = User.build({name, email, password})
     await user.save();  
 
