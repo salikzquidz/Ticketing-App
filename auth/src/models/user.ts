@@ -1,4 +1,5 @@
 import {Schema, model, connect, Model, Document} from "mongoose";
+import {Password} from '../security/password'
 
 // An interface that describes the properties required to create a new User
 
@@ -31,6 +32,16 @@ const schema = new Schema<UserAttrs>({
 })
 
 
+// 'Pre' in mongoose to hash password before save into db
+schema.pre('save', async function(done) {
+    // If the password is modified
+    if(this.isModified('password')){
+        const hashed = await Password.toHash(this.get('password'))
+        this.set('password', hashed);
+    }
+
+    done();
+})
 
 // custom function into the model
 // add static properties to remove buildUser(), and to avoid export 2 things (User and buildUser, but now only User)
