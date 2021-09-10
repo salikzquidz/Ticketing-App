@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 
 import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
 
 import { RequestValidationError } from '../errors/request-validation-error';
@@ -8,6 +9,10 @@ import { RequestValidationError } from '../errors/request-validation-error';
 import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
+
+router.get('/api/saja2', (req,res)=> {
+    
+})
 
 router.post('/api/users/signup', [
     body('email')
@@ -41,6 +46,17 @@ async(req : Request,res : Response) => {
 
     const user = User.build({name, email, password})
     await user.save();  
+
+    // Generate JWT
+    const userJWT = jwt.sign({
+        id : user.id,
+        email : user.email
+    }, 'sad')
+
+    // Store it on session object
+    req.session ={
+        jwt  : userJWT
+    }
 
     res.status(201).send(user)
 })

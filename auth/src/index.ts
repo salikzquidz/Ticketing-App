@@ -5,6 +5,8 @@ import 'express-async-errors';
 import mongoose from "mongoose";
 const app = express();
 
+import cookieSession from "cookie-session";
+
 import {currentUserRouter} from './routes/current-user'
 import {signUpRouter} from './routes/signup';
 import {signInRouter} from './routes/signin';
@@ -16,6 +18,12 @@ import { NotFoundError } from "./errors/not-found-error";
 import {errorHandler} from './middlewares/error-handler'
 
 app.use(express.json());
+
+app.set('trust proxy', true)
+app.use(cookieSession({
+    signed : false,
+    secure : true
+}))
 
 app.use(currentUserRouter);
 app.use(signUpRouter);
