@@ -45,7 +45,7 @@ async(req : Request ,res : Response) => {
     }
 
     res.status(200).send(existingUser)
-    res.send('router sign IN')
+
 })
 
 export {router as signInRouter};
