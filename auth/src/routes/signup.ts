@@ -48,10 +48,15 @@ async(req : Request,res : Response) => {
     await user.save();  
 
     // Generate JWT
+    // if(!process.env.JWT_KEY){
+    //     throw new Error('asdasd')
+    // }
     const userJWT = jwt.sign({
         id : user.id,
         email : user.email
-    }, 'sad')
+        // tambah exclamation mark sbb dah buat check utk JWT_KEY dlm index.ts
+    }, process.env.JWT_KEY!
+    );
 
     // Store it on session object
     req.session ={

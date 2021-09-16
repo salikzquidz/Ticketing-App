@@ -1,6 +1,6 @@
 import {Schema, model, connect, Model, Document} from "mongoose";
 import {Password} from '../security/password'
-
+import mongoose from 'mongoose';
 // An interface that describes the properties required to create a new User
 
 interface UserAttrs {
@@ -24,13 +24,40 @@ interface UserDoc extends Document {
     password : string;
 }
 
-const schema = new Schema<UserAttrs>({
-    // String capital 'S'
-    name : { type : String, required : true},
-    email : { type : String, required : true},
-    password : { type : String, required : true}
-})
+// const schema = new Schema<UserAttrs>({
+//     // String capital 'S'
+//     name : { type : String, required : true},
+//     email : { type : String, required : true},
+//     password : { type : String, required : true}
+// })
 
+const schema = new mongoose.Schema({
+    name : {
+        type : String,
+        required : true
+    },
+    email: {
+        type : String,
+        required : true
+    },
+    password: {
+        type : String,
+        required : true
+    },
+    // tambah untuk customize response sbb default response ada _id dgn _v 
+    // turn document into JSON
+}, {
+    toJSON : {
+        transform(doc,ret){
+            // edit _id kepada id
+            ret.id = ret._id;
+            delete ret._id;
+            // buang password property dan __v
+            delete ret.password;
+            delete ret.__v;
+        }
+    }
+})
 
 // 'Pre' in mongoose to hash password before save into db
 schema.pre('save', async function(done) {

@@ -47,6 +47,10 @@ app.use(errorHandler);
 // }
 
 const start = async() => {
+    if(!process.env.JWT_KEY){
+        throw new Error('JWT_KEY must be defined')
+    }
+
     try {
         await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
         console.log('MongoDB connected')
@@ -55,7 +59,7 @@ const start = async() => {
     }
 
     // the port number doesnt really make any differences when using kubernetes
-    app.listen(3000, ()=>{console.log('listening on port 3000!')})
+    app.listen(3000, ()=>{console.log('listening on port 3000!!')})
 }
 
 start();
