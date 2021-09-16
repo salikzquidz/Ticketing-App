@@ -8,6 +8,9 @@ import { RequestValidationError } from '../errors/request-validation-error';
 
 import { BadRequestError } from '../errors/bad-request-error';
 
+// Middleware untuk check input
+import { validateRequest } from '../middlewares/request-validator';
+
 const router = express.Router();
 
 router.get('/api/saja2', (req,res)=> {
@@ -23,14 +26,10 @@ router.post('/api/users/signup', [
         .isLength({min : 4, max : 20})
         .withMessage('Minimum length is 4 and maximum is 20')
 ],
+validateRequest,
 async(req : Request,res : Response) => {
     const {name, email, password} = req.body;
     
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        throw new RequestValidationError(errors.array())
-    }
-
     const existingUser = await User.findOne({ email })
     const existingName = await User.findOne({ name })
 
