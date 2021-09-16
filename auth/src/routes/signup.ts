@@ -1,13 +1,8 @@
 import express, {Request, Response} from 'express';
-
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
-
-import { RequestValidationError } from '../errors/request-validation-error';
-
 import { BadRequestError } from '../errors/bad-request-error';
-
 // Middleware untuk check input
 import { validateRequest } from '../middlewares/request-validator';
 
@@ -46,10 +41,6 @@ async(req : Request,res : Response) => {
     const user = User.build({name, email, password})
     await user.save();  
 
-    // Generate JWT
-    // if(!process.env.JWT_KEY){
-    //     throw new Error('asdasd')
-    // }
     const userJWT = jwt.sign({
         id : user.id,
         email : user.email
