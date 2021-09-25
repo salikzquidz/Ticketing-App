@@ -14,7 +14,7 @@ it('clears the cookies after signing out', async()=> {
         .post('/api/users/signout')
         .send({})
         .expect(200)
-    console.log(response.get('Set-Cookie'))
+    // console.log(response.get('Set-Cookie'))
     // also can just use toBeDefined()
     expect(response.get('Set-Cookie')[0]).toEqual('express:sess=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly')
 })
