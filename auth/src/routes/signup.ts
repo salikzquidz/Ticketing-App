@@ -8,10 +8,6 @@ import { validateRequest } from '../middlewares/request-validator';
 
 const router = express.Router();
 
-router.get('/api/saja2', (req,res)=> {
-    
-})
-
 router.post('/api/users/signup', [
     body('email')
         .isEmail()
@@ -46,7 +42,7 @@ async(req : Request,res : Response) => {
         email : user.email
         // tambah exclamation mark sbb dah buat check utk JWT_KEY dlm index.ts
     }, process.env.JWT_KEY!
-    );
+);
 
     // Store it on session object
     req.session ={
