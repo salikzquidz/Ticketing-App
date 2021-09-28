@@ -5,14 +5,23 @@ export default () => {
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
+    const [errors, setErrors] = useState([])
+
+    
     const signupHandler = async(e) => {
         e.preventDefault();
-        const response = await axios.post('/api/users/signup', {
-            username,
-            email,
-            password
-        })
-        console.log(response.data)
+        try{
+            const response = await axios.post('/api/users/signup', {
+                username,
+                email,
+                password
+            })
+            console.log(response.data)
+        }catch(error){
+            console.log(error.response.data)
+            // take note here
+            setErrors(error.response.data.errors)
+        }
     }
     
     return (
@@ -30,6 +39,15 @@ export default () => {
                 <label htmlFor="">Password</label>
                 <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
+            
+            {/* Ilmu baru, dispay bila ada error dalam array */}
+            {errors.length > 0 && <div className="alert alert-danger">
+                <h1>Ooops..</h1>
+                <ul className='my-0'>
+                    {errors.map(error => <li key={error.message}>{error.message}</li> )}
+                </ul>
+            </div>}
+
             <button className='btn btn-primary' type='submit'>Sign Up</button>
         </form>
     )
