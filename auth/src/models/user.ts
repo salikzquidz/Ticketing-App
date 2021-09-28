@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 // An interface that describes the properties required to create a new User
 
 interface UserAttrs {
-    name : string,
+    username : string,
     email : string,
     password : string
 }
@@ -19,7 +19,7 @@ interface UserModel extends Model<UserDoc>{
 // Interface that describes the property that a User Document has
 
 interface UserDoc extends Document {
-    name : string;
+    username : string;
     email : string;
     password : string;
 }
@@ -32,7 +32,7 @@ interface UserDoc extends Document {
 // })
 
 const schema = new mongoose.Schema({
-    name : {
+    username : {
         type : String,
         required : true
     },

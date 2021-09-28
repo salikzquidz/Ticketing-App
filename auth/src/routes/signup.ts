@@ -9,6 +9,9 @@ import { validateRequest } from '../middlewares/request-validator';
 const router = express.Router();
 
 router.post('/api/users/signup', [
+    body('username')
+        .isString()
+        .withMessage('Username is not valid'),
     body('email')
         .isEmail()
         .withMessage('Email is not valid'),
@@ -19,10 +22,10 @@ router.post('/api/users/signup', [
 ],
 validateRequest,
 async(req : Request,res : Response) => {
-    const {name, email, password} = req.body;
+    const {username, email, password} = req.body;
     
     const existingUser = await User.findOne({ email })
-    const existingName = await User.findOne({ name })
+    const existingName = await User.findOne({ username })
 
     // check if name is already in used
     if(existingName){
@@ -34,7 +37,7 @@ async(req : Request,res : Response) => {
         throw new BadRequestError('Email has been taken')
     }
 
-    const user = User.build({name, email, password})
+    const user = User.build({username, email, password})
     await user.save();  
 
     const userJWT = jwt.sign({
