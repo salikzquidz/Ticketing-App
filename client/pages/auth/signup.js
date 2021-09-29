@@ -12,6 +12,7 @@ export default () => {
         url : "/api/users/signup",
         method : "post",
         body : {
+            username,
             email,
             password
         }
