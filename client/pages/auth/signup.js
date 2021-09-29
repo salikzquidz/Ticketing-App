@@ -1,27 +1,37 @@
 import {useState} from 'react'
 import axios from 'axios';
+
+import useRequest from '../../hooks/use-request';
 export default () => {
 
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    const [errors, setErrors] = useState([])
-
+    // const [errors, setErrors] = useState([])
+    const { doRequest, errors} = useRequest({
+        url : "/api/users/signup",
+        method : "post",
+        body : {
+            email,
+            password
+        }
+    })
     
     const signupHandler = async(e) => {
         e.preventDefault();
-        try{
-            const response = await axios.post('/api/users/signup', {
-                username,
-                email,
-                password
-            })
-            console.log(response.data)
-        }catch(error){
-            console.log(error.response.data)
-            // take note here
-            setErrors(error.response.data.errors)
-        }
+        doRequest();
+        // try{
+        //     const response = await axios.post('/api/users/signup', {
+        //         username,
+        //         email,
+        //         password
+        //     })
+        //     console.log(response.data)
+        // }catch(error){
+        //     console.log(error.response.data)
+        //     // take note here
+        //     setErrors(error.response.data.errors)
+        // }
     }
     
     return (
@@ -40,13 +50,14 @@ export default () => {
                 <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             
+            {errors}
             {/* Ilmu baru, dispay bila ada error dalam array */}
-            {errors.length > 0 && <div className="alert alert-danger">
+            {/* {errors.length > 0 && <div className="alert alert-danger">
                 <h1>Ooops..</h1>
                 <ul className='my-0'>
                     {errors.map(error => <li key={error.message}>{error.message}</li> )}
                 </ul>
-            </div>}
+            </div>} */}
 
             <button className='btn btn-primary' type='submit'>Sign Up</button>
         </form>
