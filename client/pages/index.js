@@ -1,3 +1,8 @@
-export default () => {
-    return <h1>Landing page</h1>
+const LandingPage = ({color}) => {
+    return <h1>Landing page {color}</h1>
 }
+
+LandingPage.getInitialProps = () => {
+    return {color : 'red'}
+}
+export default LandingPage;

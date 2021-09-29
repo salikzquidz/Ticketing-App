@@ -7,7 +7,7 @@ export default () => {
     const [email,setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
-    // const [errors, setErrors] = useState([])
+    
     const { doRequest, errors} = useRequest({
         url : "/api/users/signup",
         method : "post",
@@ -46,13 +46,6 @@ export default () => {
             </div>
             
             {errors}
-            {/* Ilmu baru, dispay bila ada error dalam array */}
-            {/* {errors.length > 0 && <div className="alert alert-danger">
-                <h1>Ooops..</h1>
-                <ul className='my-0'>
-                    {errors.map(error => <li key={error.message}>{error.message}</li> )}
-                </ul>
-            </div>} */}
 
             <button className='btn btn-primary' type='submit'>Sign Up</button>
         </form>
