@@ -1,17 +1,14 @@
-import { useState } from "react";
-import Router from "next/router";
-
+import React, { useState } from "react";
 import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
 
   const { doRequest, errors } = useRequest({
-    url: "/api/users/signup",
+    url: "/api/users/signin",
     method: "post",
     body: {
-      username,
       email,
       password,
     },
@@ -29,16 +26,8 @@ export default () => {
 
   return (
     <form action="" onSubmit={signupHandler}>
-      <h1>Signup</h1>
-      <div className="form-group">
-        <label htmlFor="">Username</label>
-        <input
-          type="text"
-          className="form-control"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+      <h1>SignIn</h1>
+
       <div className="form-group">
         <label htmlFor="">Email address</label>
         <input
@@ -61,7 +50,7 @@ export default () => {
       {errors}
 
       <button className="btn btn-primary" type="submit">
-        Sign Up
+        Sign In
       </button>
     </form>
   );
