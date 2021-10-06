@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-const useRequest = ({ url, method, body, onSuccess }) => {
+export default ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
   // method === 'post', 'get'
   const doRequest = async () => {
@@ -18,14 +18,17 @@ const useRequest = ({ url, method, body, onSuccess }) => {
     } catch (error) {
       // take note here
       console.log(error);
+      console.log("woi");
       setErrors(
         <div className="alert alert-danger">
           <h1>Ooops..</h1>
-          <ul className="my-0">
-            {error.response.data.errors.map((error) => (
-              <li key={error.message}>{error.message}</li>
-            ))}
-          </ul>
+          {error && (
+            <ul className="my-0">
+              {error.response.data.errors.map((error) => (
+                <li key={error.message}>{error.message}</li>
+              ))}
+            </ul>
+          )}
         </div>
       );
     }
@@ -39,4 +42,4 @@ const useRequest = ({ url, method, body, onSuccess }) => {
     errors,
   };
 };
-export default useRequest;
+// export default useRequest;
