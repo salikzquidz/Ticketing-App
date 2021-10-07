@@ -1,10 +1,10 @@
-import express from 'express';
-import { currentUser } from '../middlewares/current-user';
+import express from "express";
+import { currentUser } from "@salikztickets/common";
 const router = express.Router();
 
-router.get('/api/users/currentuser', currentUser, (req,res) => {
-    // req.currentUser sbb dah augment dlm middleware
-    res.send({currentUser : req.currentUser || null});
-})
+router.get("/api/users/currentuser", currentUser, (req, res) => {
+  // req.currentUser sbb dah augment dlm middleware
+  res.send({ currentUser: req.currentUser || null });
+});
 
-export {router as currentUserRouter};
+export { router as currentUserRouter };
