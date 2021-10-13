@@ -1,5 +1,7 @@
 import express from "express";
-import { currentUser } from "@salikztickets/common";
+// import { currentUser } from "@salikztickets/common";
+
+import { currentUser } from "@cygnetops/common";
 const router = express.Router();
 
 router.get("/api/users/currentuser", currentUser, (req, res) => {

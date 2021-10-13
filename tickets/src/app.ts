@@ -1,31 +1,31 @@
 import express from "express";
-// smol package for async
 import "express-async-errors";
-
-const app = express();
-
+import { json } from "body-parser";
 import cookieSession from "cookie-session";
-
-// not found error
-import { NotFoundError } from "@salikztickets/common";
-// middleware
-import { errorHandler } from "@salikztickets/common";
-
-app.use(express.json());
-
+import { errorHandler, NotFoundError, currentUser } from "@cygnetops/common";
+import { createTicketRouter } from "./routes/new";
+import { showTicketRouter } from "./routes/show";
+import { listAllTickets } from "./routes";
+import { updateTicketRouter } from "./routes/update";
+const app = express();
 app.set("trust proxy", true);
+app.use(json());
 app.use(
   cookieSession({
     signed: false,
     secure: process.env.NODE_ENV !== "test",
   })
 );
+app.use(currentUser);
 
-// express-async-errors
+app.use(createTicketRouter);
+app.use(showTicketRouter);
+app.use(listAllTickets);
+app.use(updateTicketRouter);
+
 app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
-// after throw, errorHandler will be used
 
 app.use(errorHandler);
 

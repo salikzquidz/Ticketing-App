@@ -1,24 +1,17 @@
 import express from "express";
-// smol package for async
 import "express-async-errors";
-
-const app = express();
-
+import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import { errorHandler, NotFoundError } from "@cygnetops/common";
 
 import { currentUserRouter } from "./routes/current-user";
-import { signUpRouter } from "./routes/signup";
 import { signInRouter } from "./routes/signin";
 import { signOutRouter } from "./routes/signout";
+import { signUpRouter } from "./routes/signup";
 
-// not found error
-import { NotFoundError } from "@salikztickets/common";
-// middleware
-import { errorHandler } from "@salikztickets/common";
-
-app.use(express.json());
-
+const app = express();
 app.set("trust proxy", true);
+app.use(json());
 app.use(
   cookieSession({
     signed: false,
@@ -27,15 +20,13 @@ app.use(
 );
 
 app.use(currentUserRouter);
-app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
+app.use(signUpRouter);
 
-// express-async-errors
 app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
-// after throw, errorHandler will be used
 
 app.use(errorHandler);
 

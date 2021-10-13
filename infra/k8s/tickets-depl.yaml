@@ -17,8 +17,8 @@ spec:
           image: salikzquidz/tickets
           # image : us.gcr.io/my-app-3a72e/tickets #gcloud
           env:
-            # - name: MONGO_URI
-            #   value: "mongodb://tickets-mongo-srv:27017/tickets"
+            - name: MONGO_URI
+              value: "mongodb://tickets-mongo-srv:27017/tickets"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
