@@ -19,7 +19,20 @@ stan.on("connect", () => {
     console.log("Event published");
   });
 
-  //   setTimeout(() => {
-  //     stan.close();
-  //   }, 60000);
+  // setInterval(() => {
+  //   console.log("...");
+  // }, 10000);
+});
+
+const data = JSON.stringify({
+  id: 123,
+  title: "concert",
+  price: 20,
+});
+
+stan.on("close", () => {
+  console.log("Connection closed");
+});
+stan.on("error", (err) => {
+  console.log("Error:", err);
 });

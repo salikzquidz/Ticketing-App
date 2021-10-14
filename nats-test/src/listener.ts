@@ -14,7 +14,12 @@ stan.on("connect", () => {
     process.exit();
   });
   //   in js, usually when addig option ,we pass object right away, but in nats, we chain them on
-  const options = stan.subscriptionOptions().setManualAckMode(true);
+  const options = stan
+    .subscriptionOptions()
+    .setAckWait(1000)
+    .setManualAckMode(true)
+    .setDeliverAllAvailable()
+    .setDurableName("accounting-service");
   //   2nd arg is queuegroup name
   const subscription = stan.subscribe(
     "ticket:created",
@@ -36,12 +41,10 @@ stan.on("connect", () => {
   setTimeout(() => {
     stan.close();
   }, 120000);
-  //   setTimeout(() => {
-  //     subscription.unsubscribe();
-  //     subscription.on("unsubscribed", () => {
-  //       stan.close();
-  //     });
-  //   }, 60000);
+
+  // setInterval(() => {
+  //   console.log("...");
+  // }, 10000);
 });
 
 // watching for interrupt signal or terminate signal
