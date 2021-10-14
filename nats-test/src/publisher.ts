@@ -18,4 +18,8 @@ stan.on("connect", () => {
   stan.publish("ticket:created", data, () => {
     console.log("Event published");
   });
+
+  //   setTimeout(() => {
+  //     stan.close();
+  //   }, 60000);
 });
